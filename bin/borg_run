@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require File.expand_path('../../config/environment', __FILE__)
+require 'optparse'
+require 'json'
+
+options = {}
+OptionParser.new do |opts|
+  opts.on('-p', '--port PORT') do |port|
+    options[:port] = port
+  end
+
+  opts.on('--redirect HASH') do |redirect|
+    options[:redirect] = JSON.parse(redirect)
+  end
+end.parse!
+
+Borg::Rails::Runner.run(Rails.application, options)
